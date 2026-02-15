@@ -16,11 +16,9 @@ class CaseCRUD:
     def create(self, case_in: CaseCreate) -> Case:
         db_case = Case(
             uuid=uuid4(),
-            case_id=case_in.case_id,
             user_id=case_in.user_id,
             age=case_in.age,
             gender=case_in.gender,
-            diagnosis=case_in.diagnosis,
             confidence=case_in.confidence
         )
         self.db.add(db_case)

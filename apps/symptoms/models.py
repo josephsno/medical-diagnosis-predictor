@@ -4,7 +4,7 @@ from sqlalchemy import Column, String, Integer, Float, ForeignKey
 class Symptom(BaseORMModel):
     __tablename__ = "symptoms"
 
-    case_id = Column(String, ForeignKey("cases.case_id"))
+    case_id = Column(Integer, ForeignKey("cases.id"), nullable=False)  # ✅ points to Case.id
     symptom = Column(String, nullable=True)
     severity = Column(Integer, nullable=False)
     duration_hours = Column(Float, nullable=False)
