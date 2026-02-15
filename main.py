@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 # Import your symptom router
-# from apps.symptoms.routes import routes as symptom_router
+from apps.symptoms import routes 
 
 app = FastAPI(
     title="Medical Diagnosis API",
@@ -28,4 +28,4 @@ app.add_middleware(
 )
 
 # Include your routers
-# app.include_router(symptom_router, prefix="/symptoms", tags=["Symptoms"])
+app.include_router(routes.router, prefix="/symptoms", tags=["Symptoms"])
