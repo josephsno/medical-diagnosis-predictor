@@ -9,7 +9,7 @@ app = FastAPI(
     title="Medical Diagnosis API",
     description="API to manage cases and symptoms for diagnosis models",
     version="1.0.0",
-    docs_url="/docs",      # Swagger UI
+    docs_url="/swagger",      # Swagger UI
     redoc_url="/redoc",    # ReDoc UI
     openapi_url="/openapi.json"
 )

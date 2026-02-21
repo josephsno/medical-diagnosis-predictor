@@ -31,6 +31,9 @@ class CaseCRUD:
     # -------------------------------
     def list(self, skip: int = 0, limit: int = 100) -> List[Case]:
         return self.db.query(Case).offset(skip).limit(limit).all()
+    
+    def count(self) -> int:
+        return self.db.query(Case).count()
 
     # -------------------------------
     # GET BY UUID

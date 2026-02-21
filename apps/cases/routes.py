@@ -1,9 +1,10 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Request
 from sqlalchemy.orm import Session
 from typing import List
 from uuid import UUID
 
 from database.database import get_db
+from utils.utils import CustomPagination
 from .schemas import CaseCreate, CaseRead, CaseUpdate
 from .crud import CaseCRUD
 
@@ -13,10 +14,21 @@ router = APIRouter()
 # -------------------------------
 # LIST & CREATE
 # -------------------------------
-@router.get("/", response_model=List[CaseRead])
-def list_cases(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+@router.get("/")
+def list_cases(
+    request: Request,
+    pagination: CustomPagination = Depends(),
+    db: Session = Depends(get_db)
+):
     crud = CaseCRUD(db)
-    return crud.list(skip=skip, limit=limit)
+    total = crud.count()  # you'll need to add a count() method to your CRUD
+    items = crud.list(skip=pagination.offset, limit=pagination.per_page)
+    
+    return pagination.paginate(
+        data=items,
+        total=total,
+        request=request,
+    )
 
 
 @router.post("/", response_model=CaseRead)
