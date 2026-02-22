@@ -13,8 +13,10 @@ class PaginatedResponse(BaseModel, Generic[T]):
     per_page: int
     total_page: int
     hasItem: bool
-    results: List[Any]
+    results: List[T]  # ← was List[Any], change to List[T]
 
+    class Config:
+        from_attributes = True  # ← add this too
 
 class CustomPagination:
     def __init__(

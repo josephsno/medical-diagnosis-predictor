@@ -1,5 +1,7 @@
 from database.base_model import BaseORMModel
 from sqlalchemy import Column, String, Integer, Float, ForeignKey
+from sqlalchemy.orm import relationship
+
 
 class Symptom(BaseORMModel):
     __tablename__ = "symptoms"
@@ -9,3 +11,4 @@ class Symptom(BaseORMModel):
     severity = Column(Integer, nullable=False)
     duration_hours = Column(Float, nullable=False)
     body_location = Column(String)
+    case = relationship("Case", back_populates="symptoms")

@@ -1,7 +1,7 @@
 from pydantic import BaseModel, Field
 from typing import Optional
 from uuid import UUID
-from datetime import datetime
+from apps.symptoms.schemas import SymptomRead
 
 
 # -------------------------------
@@ -31,14 +31,16 @@ class CaseUpdate(BaseModel):
     confidence: Optional[float] = None
 
 
-# -------------------------------
-# Read / Response schema
-# -------------------------------
-class CaseRead(CaseBase):
+
+class CaseRead(BaseModel):
     id: int
     uuid: UUID
-    created_at: datetime
-    updated_at: datetime
+    user_id: str
+    age: int
+    gender: str
+    diagnosis: str | None
+    confidence: float
+    symptoms: list[SymptomRead] = []   # ← nested list
 
     class Config:
-       from_attributes = True
+        from_attributes = True

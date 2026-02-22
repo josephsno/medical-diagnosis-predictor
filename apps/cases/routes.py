@@ -1,10 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException, Request
 from sqlalchemy.orm import Session
-from typing import List
 from uuid import UUID
 
 from database.database import get_db
-from utils.utils import CustomPagination
+from utils.utils import CustomPagination,PaginatedResponse
 from .schemas import CaseCreate, CaseRead, CaseUpdate
 from .crud import CaseCRUD
 
@@ -14,7 +13,7 @@ router = APIRouter()
 # -------------------------------
 # LIST & CREATE
 # -------------------------------
-@router.get("/")
+@router.get("/", response_model=PaginatedResponse[CaseRead])
 def list_cases(
     request: Request,
     pagination: CustomPagination = Depends(),

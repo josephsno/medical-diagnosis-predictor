@@ -19,10 +19,10 @@ def list_symptoms(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)
     return crud.list(skip=skip, limit=limit)
 
 
-@router.post("/", response_model=SymptomRead)
-def create_symptom(symptom_in: SymptomCreate, db: Session = Depends(get_db)):
+@router.post("/{case_uuid}/symptoms", response_model=SymptomRead)
+def create_symptom(case_uuid: UUID, symptom_in: SymptomCreate, db: Session = Depends(get_db)):
     crud = SymptomCRUD(db)
-    return crud.create(symptom_in)
+    return crud.create(symptom_in, case_uuid=case_uuid)
 
 
 # -------------------------------

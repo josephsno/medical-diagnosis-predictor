@@ -3,11 +3,11 @@ from typing import Optional
 from uuid import UUID
 from datetime import datetime
 
+
 # -------------------------------
 # Base schema (shared fields)
 # -------------------------------
 class SymptomBase(BaseModel):
-    case_id: Optional[str] = None
     symptom: Optional[str] = None
     severity: int
     duration_hours: float
@@ -32,10 +32,12 @@ class SymptomUpdate(SymptomBase):
 # Schema for reading (response)
 # -------------------------------
 class SymptomRead(SymptomBase):
-    id: int
+    id: int  # use uuid not int
     uuid: UUID
-    created_at: datetime
-    updated_at: datetime
+    symptom: str | None
+    severity: int
+    duration_hours: float
+    body_location: str | None
 
     class Config:
-       from_attributes = True  # Tells Pydantic to read data from ORM objects
+        from_attributes = True

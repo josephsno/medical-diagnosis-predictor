@@ -1,9 +1,10 @@
 from sqlalchemy.orm import Session
 from typing import List, Optional
 from uuid import UUID, uuid4
-
+from apps.cases.models import Case
 from .models import Symptom
 from .schemas import SymptomCreate, SymptomUpdate
+from fastapi import HTTPException
 
 
 class SymptomCRUD:
@@ -13,10 +14,14 @@ class SymptomCRUD:
     # -------------------------------
     # CREATE
     # -------------------------------
-    def create(self, symptom_in: SymptomCreate) -> Symptom:
+    def create(self, symptom_in: SymptomCreate, case_uuid: UUID) -> Symptom:
+        case = self.db.query(Case).filter(Case.uuid == case_uuid).first()
+        if not case:
+            raise HTTPException(status_code=404, detail="Case not found")
+        
         db_symptom = Symptom(
             uuid=uuid4(),
-            case_id=symptom_in.case_id,
+            case_id=case.id,
             symptom=symptom_in.symptom,
             severity=symptom_in.severity,
             duration_hours=symptom_in.duration_hours,
